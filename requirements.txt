@@ -1,0 +1,6 @@
+scrapy
+GoogleNews
+nltk
+spacy
+newspaper3k
+geopy

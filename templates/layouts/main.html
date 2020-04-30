@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <base href="./">
+    <title>{{ location }} : COVID Info</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <!-- Compressed Styles -->
+    <link href="/static/css/slides.min.css?508341" rel="stylesheet" type="text/css">
+    <link href="/static/css/timeline.css" rel="stylesheet" type="text/css">
+
+    <!-- Fonts and Material Icons -->
+    <link rel="stylesheet" as="font" href="https://fonts.googleapis.com/css?family=Inter:100,200,300,400,500,600,700,800,900|Material+Icons&display=swap"/>
+    <style>
+        .slides { font-family: 'Inter', sans-serif; }
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+       integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+       crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+        crossorigin=""></script>
+    <link rel="icon" href="/static/favicon.ico">
+</head>
+
+<body class="slides animated noPreload" onload="javascript:updateMap()">
+<nav class="side ">
+  <div class="navigation default">
+    <ul></ul>
+  </div>
+</nav>
+
+<!-- Panel Top #01 -->
+<nav class="panel top">
+  <div class="sections desktop">
+    <div class="right">
+      <ul class="menu">
+        <li><a href="/">Home</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Slide 1 (#07) -->
+<section class="slide fade-6 kenBurns">
+  <div class="content">
+    <div class="container">
+      <div class="wrap">
+        <div class="fix-11-12 rounded margin-bottom-2" id="mapid" style="width: 70vh; height: 70vh;"></div>
+      </div>
+    </div>
+  </div>
+  <div class="background" style="background-image:url(/static/assets/uploads/img-07.jpg)"></div>
+</section>
+
+<!-- Slide 2 (#07) -->
+{% if 'news' in data %}
+<section class="slide fade-6 kenBurns">
+  <div class="content">
+    <div class="container">
+      <div class="wrap">
+        <div class="fix-11-12">
+          <div class="timeline">
+            {% for x in data['news'] %}
+             <div class="timeline-container container-left">
+               <div class="container-content">
+                 <h4>{{ data['news']['first']['date'] }}</h2>
+                 <p>{{ data['news']['first']['title'] }}</p>
+               </div>
+             </div>
+           {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="background" style="background-image:url(/static/assets/uploads/img-07.jpg)"></div>
+</section>
+{% endif %}
+<!-- Slide 3 (#10) -->
+<section class="slide fade-6 kenBurns">
+  <div class="content">
+    <div class="container">
+      <div class="wrap">
+        <div class="fix-7-12">
+          <h1 class="smaller margin-bottom-2 ae-1">Algorithm behind the website</h1>
+          <p class="large ae-2"><span class="opacity-8">Developed using a subfield of Artificial Intelligene called Natural Language Processing, the algorithm extracts trustworthy public information reported in newspapers and Twitter to make a micro-district map which tracks real time development of your nearby cases. As an output, we get local level COVID-19 activity log along with a micro-district map. </span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="background" style="background-image:url(/static/assets/uploads/computer-screen-man-male.jpg)"></div>
+</section>
+
+<!-- Slide 4 (#03) -->
+<section class="slide fade-6 kenBurns">
+  <div class="content">
+    <div class="container">
+      <div class="wrap">
+        <div class="fix-7-12">
+          <div class="fix-3-12 margin-bottom-3">
+          </div>
+          <div class="fix-6-12">
+            <p class="large cropBottom ae-2"><span class="opacity-8">The team consists of 3 passionate engineers from IIT Kharagpur trying to do their bit to fight COVID-19 in India.
+               <br><br>For feedback/support, send us an email on:
+                <br>Vyom Shrivastava:  vyomiitkgp@gmail.com
+                <br> Nishant Kumar: kumarnishant8821@gmail.com
+            </span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="background" style="background-image:url(/static/assets/uploads/kgp.jpg)"></div>
+</section>
+
+
+<!-- jQuery 3.4.1 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+  function updateMap(){
+    var mymap = L.map('mapid').setView({{ data['setCords'] }}, 13);
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+      maxZoom: 18,
+      id: 'mapbox/streets-v11',
+      tileSize: 512,
+      zoomOffset: -1
+    }).addTo(mymap);
+    {% for loc in data['locs'] %}
+      L.marker({{ loc }}).addTo(mymap);
+    {% endfor %}
+  }
+
+  function getPos(pos){
+    return pos;
+  }
+</script>
+
+<!-- Compressed Scripts -->
+<script src="/static/js/slides.min.js?508341" type="text/javascript"></script>
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+{
+ "cities" : ["gurgaon"],
+ "pagesPerCity": 1,
+ "maxWordLength": 20,
+ "accepted_labels": ["PERSON", "NORP", "FAC", "ORG", "GPE", "LOC", "PRODUCT"]
+}

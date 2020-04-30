@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <base href="./">
+    <title>COVID Tracker</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <!-- Compressed Styles -->
+    <link href="/static/css/slides.min.css?508341" rel="stylesheet" type="text/css">
+
+    <!-- Fonts and Material Icons -->
+    <link rel="stylesheet" as="font" href="https://fonts.googleapis.com/css?family=Inter:100,200,300,400,500,600,700,800,900|Material+Icons&display=swap"/>
+    <style>
+        .slides { font-family: 'Inter', sans-serif; }
+    </style>
+    <link rel="icon" href="/static/favicon.ico">
+</head>
+<body class="slides animated noPreload">
+
+<nav class="side ">
+  <div class="navigation default">
+    <ul></ul>
+  </div>
+</nav>
+
+<!-- Panel Top #01 -->
+<nav class="panel top">
+  <div class="sections desktop">
+    <div class="right">
+      <ul class="menu">
+        <li><a href="/">Home</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Slide 1 (#08) -->
+<section class="slide fade-6 kenBurns">
+  <div class="content">
+    <div class="container">
+      <div class="wrap">
+        <div class="fix-7-12">
+          <p class="larger light margin-top-2 ae-2"><span class="opacity-8"><b>Track COVID developments in your locality.</b></span></p>
+          <div class="margin-top-3">
+            <form class="slides-form" action="/main" method="post">
+              <input type="text" class="rounded input-8 ae-4 fromCenter" name="user-loc" placeholder="Locality, City (Ex. Sector 15, Noida)"/>
+              <button type="submit" class="button blue rounded ae-7 fromCenter" name="button">Get Informed!</button>
+            </form>
+            <p class="large margin-top-3 cropBottom ae-3"><span class="opacity-8"></span></p>
+            <p class="larger light margin-top-2 ae-2"><span class="opacity-8"><b><br><font size="-2.5">Image Credits: Team Fusion</font></b></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="background" style="background-image:url(/static/assets/uploads/fusion-medical-animation-eaggqoiddmg-unsplash.jpg)"></div>
+</section>
+
+<!-- jQuery 3.4.1 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<!-- Compressed Scripts -->
+<script src="/static/js/slides.min.js?508341" type="text/javascript"></script>
+
+</body>
+</html>
