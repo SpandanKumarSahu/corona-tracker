@@ -148,7 +148,7 @@
       zoomOffset: -1
     }).addTo(mymap);
     {% for loc in data['locs'] %}
-      L.marker({{ loc }}).addTo(mymap);
+      L.marker({{ loc[0] }}).addTo(mymap).bindPopup("<b>{{ loc[1] }}</b>");
     {% endfor %}
   }
 

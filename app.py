@@ -163,7 +163,7 @@ def main():
             coords = Object()
             coords.latitude, coords.longitude = 28.7041, 77.1025
         data = {
-            'locs': megaData['locs'],
+            'locs': [[u, v] for u, v in list(zip(megaData['locs'], megaData['names']))],
             'setCords': [coords.latitude, coords.longitude],
             'addr': getClosestAddr(megaData, [coords.latitude, coords.longitude]),
         }
