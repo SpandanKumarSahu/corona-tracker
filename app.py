@@ -9,12 +9,12 @@ from collections import Counter
 from nltk import sent_tokenize
 from newspaper import Article
 from geopy.geocoders import Nominatim
-from geopy.distance import distance
+from geopy.distance import geodesic
 import spacy
 
 
 # For server
-app = Flask(__name__)
+app = Flask(__name__, template_folder = 'templates/')
 app.secret_key = 's3cr3t'
 app.debug = True
 app._static_folder = os.path.abspath("templates/static/")
@@ -134,7 +134,7 @@ def initiateConfig():
     config = json.load(open("config.json", "r"))
 
 def getClosestAddr(megaData, target):
-    distList = [distance(loc, target) for loc in megaData['locs']]
+    distList = [geodesic(loc, target).km for loc in megaData['locs']]
     return megaData['names'][distList.index(min(distList))]
 
 @app.route('/', methods=['GET'])
@@ -144,17 +144,35 @@ def home():
 @app.route('/main', methods=['GET', 'POST'])
 def main():
     try:
-        global geolocator
+        global geolocator, config
+        if config is None:
+            initiateConfig()
         if geolocator is None:
             geolocator = Nominatim()
         megaData = pickle.load(open("data/res/Delhi.pkl", "rb"))
         coords = geolocator.geocode(request.form['user-loc'])
+        message = None
+        if coords is None or \
+            geodesic([coords.latitude, coords.longitude], [28.7041, 77.1025]).km > 100.0:
+            if coords is None:
+                message = "Sorry! Can't resolve your location at the moment."
+            else:
+                message = "Sorry! We have data for Delhi NCR only."
+            class Object(object):
+                pass
+            coords = Object()
+            coords.latitude, coords.longitude = 28.7041, 77.1025
         data = {
             'locs': megaData['locs'],
             'setCords': [coords.latitude, coords.longitude],
             'addr': getClosestAddr(megaData, [coords.latitude, coords.longitude]),
         }
-        # data['news'] = megaData['news'][data['addr']]
+        if message is not None:
+            data['message'] = message
+        if data['addr'] in megaData['news']:
+            data['news'] = megaData['news'][data['addr']][(-1) * config['maxNewsInTable']:]
+            for i in range(len(data['news'])):
+                data['news'][i][1] = data['news'][i][1].encode('ascii', 'ignore').decode('utf-8')
         return render_template('layouts/main.html', data = data)
     except:
         return home()
